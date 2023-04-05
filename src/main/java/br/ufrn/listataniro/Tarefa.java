@@ -7,7 +7,20 @@ public class Tarefa {
     private String texto;
     private final Date dataCadastro;
     private Integer prioridade;
-    
+
+    public Tarefa(String texto, Integer prioridade){
+        this.texto = texto;
+        this.prioridade = prioridade;
+        this.dataCadastro = new Date();
+    }
+
+    public Tarefa(Integer id, String texto, Date dataCadastro, Integer prioridade) {
+        this.id = id;
+        this.texto = texto;
+        this.dataCadastro = dataCadastro;
+        this.prioridade = prioridade;
+    }
+
     public Integer getId() {
         return id;
     }
