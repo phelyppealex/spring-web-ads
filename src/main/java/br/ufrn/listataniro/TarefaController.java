@@ -36,7 +36,7 @@ public class TarefaController {
         );
     }
 
-    @GetMapping("/doListar")
+    @GetMapping("/listar")
     public void doListar(HttpServletRequest request, HttpServletResponse response) throws IOException{
         TarefaDAO tarefaDAO = new TarefaDAO();
         ArrayList<Tarefa> tarefas = tarefaDAO.listar();
@@ -46,13 +46,18 @@ public class TarefaController {
 
         writer.println("<html>" +
             "<body>"+
-            "<h1>TODAS AS TAREFAS</h1></br></hr>"
+            "<h1>TODAS AS TAREFAS</h1></br>"+"</hr>"
         );
         
         for (var t : tarefas) {
-            writer.println("<p><b>Descrição:</b> "+ t.getTexto() +"</p></br>"+
+            writer.println(
+                "<p><b>Descrição:</b> "+ t.getTexto() +"</p></br>"+
                 "<p><b>Prioridade:</b> "+ t.getPrioridade() + "</p></br>"+
-                "<p><b>Data:</b> "+ t.getDataCadastro() + "</p></br><hr>"
+                "<p><b>Data:</b> "+ t.getDataCadastro() + "</p></br>"+
+                "<form action=\"/deletar\" method=\"get\">"+
+                    "<input type=\"hidden\" name=\"idTarefa\" value=\"" + t.getId() + "\"/></br>"+
+                    "<input type=\"submit\" value=\"Deletar\"/><br/><hr/>"+
+                "<form/>"
             );
         }
         
@@ -60,4 +65,15 @@ public class TarefaController {
             "</html>"
         );
     }
+
+    @PostMapping("/deletar")
+    public void doDeletar(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        int id = Integer.parseInt(request.getParameter("idTarefa"));
+
+        TarefaDAO tarefaDAO = new TarefaDAO();
+        tarefaDAO.deletar(id);
+
+        response.sendRedirect("/listar");
+    }
+
 }

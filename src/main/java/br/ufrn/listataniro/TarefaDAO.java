@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class TarefaDAO {
     private final String sel_all = "SELECT * FROM tarefa";
     private final String insert = "INSERT INTO tarefa (texto,prioridade,dataCadastro) VALUES (?,?,?)";
+    private final String delete = "DELETE FROM tarefa WHERE id=?";
     private Conexao c;
 
     public TarefaDAO(){
@@ -57,6 +58,20 @@ public class TarefaDAO {
             c.desconectar();
         }catch(Exception e){
             System.out.println("Erro ao inserir - " + e.getMessage());
+        }
+    }
+
+    public void deletar(int id){
+        try{
+            c.conectar();
+
+            PreparedStatement statement = c.getConexao().prepareStatement(delete);
+            statement.setInt(1, id);
+            statement.execute();
+
+            c.desconectar();
+        }catch(Exception e){
+            System.out.println("Erro ao deletar - "+ e.getMessage());
         }
     }
 }
