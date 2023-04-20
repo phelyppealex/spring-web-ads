@@ -51,13 +51,11 @@ public class TarefaController {
         
         for (var t : tarefas) {
             writer.println(
+                "<br/><hr/>"+
                 "<p><b>Descrição:</b> "+ t.getTexto() +"</p></br>"+
                 "<p><b>Prioridade:</b> "+ t.getPrioridade() + "</p></br>"+
                 "<p><b>Data:</b> "+ t.getDataCadastro() + "</p></br>"+
-                "<form action=\"/deletar\" method=\"get\">"+
-                    "<input type=\"hidden\" name=\"idTarefa\" value=\"" + t.getId() + "\"/></br>"+
-                    "<input type=\"submit\" value=\"Deletar\"/><br/><hr/>"+
-                "<form/>"
+                "<a href='deletar?idTarefa="+t.getId()+"'>Deletar</a>"
             );
         }
         
@@ -66,7 +64,7 @@ public class TarefaController {
         );
     }
 
-    @PostMapping("/deletar")
+    @GetMapping("/deletar")
     public void doDeletar(HttpServletRequest request, HttpServletResponse response) throws IOException{
         int id = Integer.parseInt(request.getParameter("idTarefa"));
 
